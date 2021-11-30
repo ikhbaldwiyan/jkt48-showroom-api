@@ -43,6 +43,8 @@ const Lives = {
 
             // Destrurct response profile and title
             const profileData = (profile, title) => {
+                const name = `${profile.room_name}is Live on JKT48 SHOWROOM`
+                const share = `https://twitter.com/intent/tweet?text=${name}%0ahttps://jkt48-showroom.vercel.app/live-stream/${roomId}`
                 return {
                     roomId: profile.room_id,
                     room_name: profile.room_name,
@@ -50,7 +52,9 @@ const Lives = {
                     title: title,
                     views: profile.view_num,
                     is_onlive: profile.is_onlive,
-                    current_live_started_at: profile.current_live_started_at
+                    current_live_started_at: profile.current_live_started_at,
+                    share_url_live: profile.share_url_live,
+                    share_url_local: share
                 }
             }
             const data = profileData(profile, title)
