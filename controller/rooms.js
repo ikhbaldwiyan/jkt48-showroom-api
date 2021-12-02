@@ -1,4 +1,4 @@
-const { HOME, LIVE } = require("../utils/api");
+const { HOME, LIVE, ROOM } = require("../utils/api");
 const fetchService = require("../utils/fetchService");
 
 const Rooms = {
@@ -71,6 +71,32 @@ const Rooms = {
 
         } catch (error) {
             return error
+        }
+    },
+
+    getProfile: async (req, res) => {
+        try {
+            const { roomId } = req.params
+            const getProfile = await fetchService(`${ROOM}/profile?room_id=${roomId}`, res)
+            const profile = getProfile.data
+
+            res.send(profile)
+
+        } catch (error) {
+            res.send(error)
+        }
+    },
+
+    getNextLive: async (req, res) => {
+        try {
+            const { roomId } = req.params
+            const getNextLive = await fetchService(`${ROOM}/next_live?room_id=${roomId}`, res)
+            const nextLive = getNextLive.data
+
+            res.send(nextLive)
+
+        } catch (error) {
+            res.send(error)
         }
     }
 }
