@@ -98,6 +98,19 @@ const Rooms = {
         } catch (error) {
             res.send(error)
         }
+    },
+
+    getTotalRank: async (req, res) => {
+        try {
+            const { roomId } = req.params
+            const getTotalRank = await fetchService(`${LIVE}/summary_ranking?room_id=${roomId}`, res)
+            const totalRank = getTotalRank.data.ranking
+
+            res.send(totalRank);
+
+        } catch (error) {
+            res.send(error)
+        }
     }
 }
 
