@@ -67,6 +67,13 @@ const Rooms = {
                 });
             }
 
+            if (roomIsLive.length === 0) {
+                res.send({
+                    message : 'Member Not Live',
+                    is_live: false
+                });
+            }
+
             res.send(roomIsLive);
 
         } catch (error) {
