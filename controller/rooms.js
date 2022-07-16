@@ -10,7 +10,8 @@ const Rooms = {
 
             for (let i = 0; i < rooms.length; i++) {
                 const index = rooms[i];
-                if (index.name.includes("JKT48")) {
+                if (index.name.includes("JKT48") && !index.url_key.includes('JKT48_Eve') && !index.url_key.includes('JKT48_Ariel') && !index.url_key.includes('JKT48_Anin') && !index.url_key.includes('JKT48_Cindy')) 
+                {
                     roomList.push(index)
                 }
             }
@@ -157,7 +158,21 @@ const Rooms = {
         } catch (error) {
             res.send(error)
         }
-    }
+    },
+
+    getFanLetter: async (req, res) => {
+        try {
+            const { roomId } = req.params
+            const getFanLetter = await fetchService(`${ROOM}/recommend_comments?room_id=${roomId}`, res)
+            const fanLetter = getFanLetter.data.recommend_comments
+
+            res.send(fanLetter);
+
+        } catch (error) {
+            res.send(error)
+        }
+    },
+
 }
 
 module.exports = Rooms;
