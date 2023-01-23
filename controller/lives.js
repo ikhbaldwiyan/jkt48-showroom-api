@@ -63,6 +63,21 @@ const Lives = {
     }
   },
 
+  getRank: async (req, res) => {
+    try {
+      const { roomId } = req.params;
+      const getRank = await fetchService(
+        `${LIVE}/stage_user_list?room_id=${roomId}`,
+        res
+      );
+      const totaGift = getRank.data.stage_user_list;
+
+      res.send(totaGift);
+    } catch (error) {
+      res.send(error);
+    }
+  },
+
   getAllGift: async (req, res) => {
     try {
       const { roomId } = req.params;
