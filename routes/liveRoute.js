@@ -5,5 +5,6 @@ const router = express.Router();
 router.get('/:roomId', Lives.getStreamUrl)
 router.get('/info/:roomId', Lives.getTitle)
 router.get('/comments/:roomId', Lives.getComments)
+router.get('/gift/:roomId', Lives.getAllGift)
 
 module.exports = router;

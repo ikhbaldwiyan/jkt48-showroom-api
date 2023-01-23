@@ -62,6 +62,21 @@ const Lives = {
       return error;
     }
   },
+
+  getAllGift: async (req, res) => {
+    try {
+      const { roomId } = req.params;
+      const getAllGift = await fetchService(
+        `${LIVE}/gift_log?room_id=${roomId}`,
+        res
+      );
+      const totaGift = getAllGift.data.gift_log;
+
+      res.send(totaGift);
+    } catch (error) {
+      res.send(error);
+    }
+  },
 };
 
 module.exports = Lives;
