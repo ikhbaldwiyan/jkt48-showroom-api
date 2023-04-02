@@ -80,13 +80,13 @@ async function getLiveInfoAcademy() {
 const DiscordApi = {
   getLiveNotification: async (req, res) => {
     try {
-      // cron.schedule("*/1 * * * *", async () => {
+      cron.schedule("*/5 * * * *", async () => {
       if (req.params.type === "regular") {
         await getLiveInfo();
       } else {
         await getLiveInfoAcademy();
       }
-      // });
+      });
 
       res.send("Live notification sent!");
     } catch (error) {
