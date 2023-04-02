@@ -9,7 +9,8 @@
     ],
     "crons": [
         {
-          "path": "/api/notification/regular"
+          "path": "/api/notification/regular",
+          "schedule": ""
         }
       ]
 } 
