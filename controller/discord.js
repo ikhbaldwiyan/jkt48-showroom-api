@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
 const axios = require("axios");
-const cron = require("node-cron");
 
 // Set up Discord webhook client
 const webhookClient = new Discord.WebhookClient({
