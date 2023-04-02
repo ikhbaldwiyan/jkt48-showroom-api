@@ -96,4 +96,14 @@ const DiscordApi = {
   },
 };
 
-module.exports = DiscordApi;
+module.exports = (req, res) => {
+  cron.schedule("*/1 * * * *", async () => {
+    if (req.query.type === "regular") {
+      await getLiveInfo();
+    } else {
+      await getLiveInfoAcademy();
+    }
+  });
+  
+  res.status(200).send("Cron job scheduled successfully");
+};
