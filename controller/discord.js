@@ -4,8 +4,8 @@ const cron = require("node-cron");
 
 // Set up Discord webhook client
 const webhookClient = new Discord.WebhookClient({
-  id: "1091719267726139444",
-  token: "GoodxS-yAsGlD7l0ntn8rgqISJ8l9pFqeDaNQ2234gw1vUaDRqLVAFi8a2cyiyoT8EvQ",
+  id: process.env.DISCORD_WEBHOOK_ID,
+  token: process.env.DISCORD_WEBHOOK_TOKEN,
 });
 
 // Function to send Discord webhook notification
@@ -80,7 +80,7 @@ async function getLiveInfoAcademy() {
 const DiscordApi = {
   getLiveNotification: async (req, res) => {
     try {
-      cron.schedule("*/1 * * * *", async () => {
+      cron.schedule("*/5 * * * *", async () => {
       if (req.params.type === "regular") {
         await getLiveInfo();
       } else {
