@@ -57,7 +57,7 @@ async function getLiveInfo() {
     if (member.is_live) {
       await sendWebhookNotification(member);
     } else {
-      console.log(`${member.name} not live`);
+      console.log(`${member.name}not live`);
     }
   }
 }
@@ -80,13 +80,13 @@ async function getLiveInfoAcademy() {
 const DiscordApi = {
   getLiveNotification: async (req, res) => {
     try {
-      cron.schedule("*/1 * * * *", async () => {
+      // cron.schedule("*/1 * * * *", async () => {
       if (req.params.type === "regular") {
         await getLiveInfo();
       } else {
         await getLiveInfoAcademy();
       }
-      });
+      // });
 
       res.send("Live notification sent!");
     } catch (error) {
@@ -96,14 +96,4 @@ const DiscordApi = {
   },
 };
 
-module.exports = (req, res) => {
-  cron.schedule("*/1 * * * *", async () => {
-    if (req.query.type === "regular") {
-      await getLiveInfo();
-    } else {
-      await getLiveInfoAcademy();
-    }
-  });
-  
-  res.status(200).send("Cron job scheduled successfully");
-};
+module.exports = DiscordApi;

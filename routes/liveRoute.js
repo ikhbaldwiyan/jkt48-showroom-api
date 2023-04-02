@@ -8,6 +8,6 @@ router.get('/info/:roomId', Lives.getTitle)
 router.get('/comments/:roomId', Lives.getComments)
 router.get('/rank/:roomId', Lives.getRank)
 router.get('/gift/:roomId', Lives.getAllGift)
-router.get('/notification/:type', Discord)
+router.get('/notification/:type', Discord.getLiveNotification)
 
 module.exports = router;
