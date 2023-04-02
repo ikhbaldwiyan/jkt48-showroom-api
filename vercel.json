@@ -9,8 +9,7 @@
     ],
     "crons": [
         {
-          "path": "/api/notification/regular",
-          "schedule": "*/5 * * * *"
+          "path": "/api/notification/regular"
         }
       ]
 } 
