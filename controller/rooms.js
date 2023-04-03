@@ -131,62 +131,26 @@ const Rooms = {
   },
 
   getNewMember: async (req, res) => {
+    const ACADEMY = {
+      amanda: "400710",
+      lia: "400713",
+      callie: "400714",
+      ela: "400715",
+      indira: "400716",
+      lyn: "400717",
+      raisha: "400718",
+    };
+    
+    const promises = Object.values(ACADEMY).map(async (room_id) => {
+      const response = await fetchService(
+        `${ROOM}/profile?room_id=${room_id}`,
+        res
+      );
+      return response.data;
+    });
+
     try {
-      let newMember = [];
-
-      const ACADEMY = {
-        amanda: "400710",
-        lia: "400713",
-        giselle: "400712",
-        callie: "400714",
-        ela: "400715",
-        indira: "400716",
-        lyn: "400717",
-        raisha: "400718",
-      };
-
-      const amanda = await fetchService(
-        `${ROOM}/profile?room_id=${ACADEMY.amanda}`,
-        res
-      );
-      const lia = await fetchService(
-        `${ROOM}/profile?room_id=${ACADEMY.lia}`,
-        res
-      );
-      const giselle = await fetchService(
-        `${ROOM}/profile?room_id=${ACADEMY.giselle}`,
-        res
-      );
-      const callie = await fetchService(
-        `${ROOM}/profile?room_id=${ACADEMY.callie}`,
-        res
-      );
-      const ela = await fetchService(
-        `${ROOM}/profile?room_id=${ACADEMY.ela}`,
-        res
-      );
-      const indira = await fetchService(
-        `${ROOM}/profile?room_id=${ACADEMY.indira}`,
-        res
-      );
-      const lyn = await fetchService(
-        `${ROOM}/profile?room_id=${ACADEMY.lyn}`,
-        res
-      );
-      const raisha = await fetchService(
-        `${ROOM}/profile?room_id=${ACADEMY.raisha}`,
-        res
-      );
-
-      newMember.push(amanda.data);
-      newMember.push(callie.data);
-      newMember.push(ela.data);
-      newMember.push(giselle.data);
-      newMember.push(lia.data);
-      newMember.push(indira.data);
-      newMember.push(lyn.data);
-      newMember.push(raisha.data);
-
+      const newMember = await Promise.all(promises);
       res.send(newMember);
     } catch (error) {
       res.send(error);
