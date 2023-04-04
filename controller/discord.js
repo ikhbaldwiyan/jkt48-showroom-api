@@ -1,6 +1,8 @@
 const Discord = require("discord.js");
 const axios = require("axios");
 const cron = require("node-cron");
+const { API } = require("../utils/api");
+const { getTimes } = require("../utils/getTimes");
 
 // Set up Discord webhook client
 const webhookClient = new Discord.WebhookClient({
@@ -9,7 +11,7 @@ const webhookClient = new Discord.WebhookClient({
 });
 
 // Function to send Discord webhook notification
-function sendWebhookNotification(liveInfo) {
+function sendWebhookNotification(liveInfo, liveTime) {
   const name = liveInfo.url_key
     ? liveInfo.url_key.replace("JKT48_", "") + " JKT48"
     : liveInfo.room_url_key.replace("JKT48_", "") + " JKT48";
@@ -21,6 +23,10 @@ function sendWebhookNotification(liveInfo) {
     .setTitle(`${name} is now live on Showroom!`)
     .setURL(link)
     .addFields(
+      {
+        name: "Stream started:",
+        value: getTimes(liveTime),
+      },
       {
         name: "Watch On JKT48 Showroom:",
         value: `[Here](${link})`,
@@ -47,36 +53,49 @@ function sendWebhookNotification(liveInfo) {
   });
 }
 
-async function getLiveInfo() {
-  const response = await axios.get(
-    `https://jkt48-showroom-api.vercel.app/api/rooms`
-  );
+async function getLiveInfo(roomType) {
+  const notifiedLiveIds = new Set();
+
+  let url = roomType === "regular" ? `${API}/rooms` : `${API}/rooms/academy`;
+  const response = await axios.get(url);
   const rooms = response.data;
 
   for (const member of rooms) {
-    const name = member.url_key.replace("JKT48_", "") + " JKT48";
+    let name;
 
-    if (member.is_live) {
-      await sendWebhookNotification(member);
-    } else {
-      console.log(`${name} not live`);
-    }
-  }
-}
+    const roomUrl = `${API}/rooms/profile/${member.room_id ?? member.id}`;
+    const profile = await axios.get(roomUrl);
+    const liveTime = profile.data.current_live_started_at;
+    const liveId = profile.data.live_id;
 
-async function getLiveInfoAcademy() {
-  const response = await axios.get(
-    `https://jkt48-showroom-api.vercel.app/api/rooms/academy`
-  );
-  const roomsAcademy = response.data;
+    if (roomType === "regular") {
+      name = member.url_key.replace("JKT48_", "") + " JKT48";
 
-  for (const member of roomsAcademy) {
-    const name = member.room_url_key.replace("JKT48_", "") + " JKT48";
+      if (member.is_live) {
+        if (!notifiedLiveIds.has(liveId)) {
+          await sendWebhookNotification(member, liveTime);
+          notifiedLiveIds.add(liveId);
+        } else {
+          console.log(`Already notified for ${name} live ID ${liveId}`);
+        }
+      } else {
+        console.log(`${name} not live`);
+        notifiedLiveIds.delete(liveId);
+      }
+    } else if (roomType === "academy") {
+      name = member.room_url_key.replace("JKT48_", "") + " JKT48";
 
-    if (member.is_onlive) {
-      await sendWebhookNotification(member);
-    } else {
-      console.log(`${name} not live`);
+      if (member.is_onlive) {
+        if (!notifiedLiveIds.has(liveId)) {
+          await sendWebhookNotification(member, liveTime);
+          notifiedLiveIds.add(liveId);
+        } else {
+          console.log(`Already notified for ${name} live ID ${liveId}`);
+        }
+      } else {
+        console.log(`${name} not live`);
+        notifiedLiveIds.delete(liveId);
+      }
     }
   }
 }
@@ -86,9 +105,9 @@ const DiscordApi = {
     try {
       // cron.schedule("*/5 * * * *", async () => {
       if (req.params.type === "regular") {
-        await getLiveInfo();
+        await getLiveInfo("regular");
       } else {
-        await getLiveInfoAcademy();
+        await getLiveInfo("academy");
       }
       // });
 
