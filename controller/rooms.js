@@ -87,10 +87,16 @@ const Rooms = {
 
   getProfile: async (req, res) => {
     try {
-      const { roomId } = req.params;
+      const { roomId, cookies } = req.params;
+      const config = {
+        headers: {
+          Cookie: cookies,
+        },
+      };
       const getProfile = await fetchService(
         `${ROOM}/profile?room_id=${roomId}`,
-        res
+        res,
+        config
       );
       const profile = getProfile.data;
 
@@ -140,7 +146,7 @@ const Rooms = {
       lyn: "400717",
       raisha: "400718",
     };
-    
+
     const promises = Object.values(ACADEMY).map(async (room_id) => {
       const response = await fetchService(
         `${ROOM}/profile?room_id=${room_id}`,
