@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const axios = require("axios");
 const cron = require("node-cron");
 const { API } = require("../utils/api");
-const { getTimes } = require("../utils/getTimes");
+const getTimes = require("../utils/getTimes");
 
 // Set up Discord webhook client
 const webhookClient = new Discord.WebhookClient({
@@ -24,7 +24,7 @@ function sendWebhookNotification(liveInfo, liveTime) {
     .setURL(link)
     .addFields(
       {
-        name: "Stream started:",
+        name: "Live started:",
         value: getTimes(liveTime),
       },
       {
@@ -78,6 +78,7 @@ async function getLiveInfo(roomType) {
         } else {
           console.log(`Already notified for ${name} live ID ${liveId}`);
         }
+        console.log(`${name} is LIVE`);
       } else {
         console.log(`${name} not live`);
         notifiedLiveIds.delete(liveId);
@@ -92,11 +93,13 @@ async function getLiveInfo(roomType) {
         } else {
           console.log(`Already notified for ${name} live ID ${liveId}`);
         }
+        console.log(`${name} is LIVE`);
       } else {
         console.log(`${name} not live`);
         notifiedLiveIds.delete(liveId);
       }
     }
+    console.log(notifiedLiveIds)
   }
 }
 
