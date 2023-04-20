@@ -24,7 +24,7 @@ JKT48 SHOWROOM API
 
 ### Endpoint Usage
 
-**Base Url** : `https://jkt48showroom-api.vercel.app/`
+**Base Url** : `https://jkt48-showroom-api.vercel.app/`
 
 ----
 
@@ -34,19 +34,19 @@ JKT48 SHOWROOM API
 * `Room List`
 
 ```
-https://jkt48showroom-api.vercel.app/api/rooms
+/api/rooms
 ```
 
 * `Room Live`
 
 ```
-https://jkt48showroom-api.vercel.app/api/rooms/onlives
+/api/rooms/onlives
 ```
 
 * `Room Academy`
 
 ```
-https://jkt48showroom-api.vercel.app/api/rooms/academy
+/api/rooms/academy
 ```
 
 ----
@@ -56,19 +56,19 @@ https://jkt48showroom-api.vercel.app/api/rooms/academy
 * `Profile`
 
 ```
-https://jkt48showroom-api.vercel.app/api/rooms/profile/:roomId
+/api/rooms/profile/:roomId
 ```
 
 * `Total Rank`
 
 ```
-https://jkt48showroom-api.vercel.app/api/rooms/total-rank/:roomId
+/api/rooms/total-rank/:roomId
 ```
 
 * `Fan Letters`
 
 ```
-https://jkt48showroom-api.vercel.app/api/rooms/fan-letters/:roomId
+/api/rooms/fan-letters/:roomId
 ```
 ----
 
