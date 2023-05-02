@@ -1,15 +1,30 @@
-function getTimes(times) {
-  function formatTime(n) {
-    return n < 10 ? '0' + n : n;
+function getTimes(times, isDate = false) {
+  function formatTime(dateInput) {
+    const dates = new Date(dateInput);
+
+    if (isDate) {
+      let optionsDate = {
+        timeZone: "Asia/Jakarta",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+      };
+      let date = dates.toLocaleString("id-ID", optionsDate);
+
+      return date;
+    } else {
+      let options = {
+        timeZone: "Asia/Jakarta",
+        hour: "numeric",
+        minute: "numeric",
+      };
+      let time = dates.toLocaleString("id-ID", options);
+      return time;
+    }
   }
 
-  function getTimes(dateInput) {
-    var date = new Date(dateInput);
-    var time = `${formatTime(date.getHours())}:${formatTime(date.getMinutes())}`;
-    return time;
-  }
-
-  return times ? getTimes(times * 1000) : 'TBD';
+  return times ? formatTime(times * 1000) : "TBD";
 }
 
-module.exports = getTimes
+module.exports = getTimes;
