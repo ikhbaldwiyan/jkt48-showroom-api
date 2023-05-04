@@ -175,7 +175,7 @@ const Rooms = {
 
   getLastRoomLive: async (req, res) => {
     try {
-      const uri = "mongodb+srv://inzoid:AdeuGbgXBY7VVslz@cluster0.na5wqjb.mongodb.net/?retryWrites=true&w=majority";
+      const uri = process.env.DB_URL;
       const client = new MongoClient(uri, { useUnifiedTopology: true });
 
       const db = client.db("showroom");
