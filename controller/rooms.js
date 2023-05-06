@@ -1,5 +1,6 @@
 const { HOME, LIVE, ROOM } = require("../utils/api");
 const fetchService = require("../utils/fetchService");
+const { MongoClient } = require("mongodb");
 
 const Rooms = {
   getRoomList: async (req, res) => {
@@ -173,6 +174,21 @@ const Rooms = {
       const fanLetter = getFanLetter.data.recommend_comments;
 
       res.send(fanLetter);
+    } catch (error) {
+      res.send(error);
+    }
+  },
+
+  getLastRoomLive: async (req, res) => {
+    try {
+      const uri = process.env.DB_URL;
+      const client = new MongoClient(uri, { useUnifiedTopology: true });
+
+      const db = client.db("showroom");
+      const collection = db.collection("live_ids");
+      const liveDatabase = await collection.find().toArray();
+
+      res.send(liveDatabase);
     } catch (error) {
       res.send(error);
     }
