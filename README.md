@@ -49,6 +49,12 @@ JKT48 SHOWROOM API
 /api/rooms/academy
 ```
 
+* `Room Trainee`
+
+```
+/api/rooms/trainee
+```
+
 ----
 
 ### Room Endpoint

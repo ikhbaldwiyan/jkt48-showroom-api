@@ -1,5 +1,6 @@
 const { HOME, LIVE, ROOM, BASE_URL } = require("../utils/api");
 const fetchService = require("../utils/fetchService");
+const getCustomRoom = require("../utils/customRoom");
 
 const Rooms = {
   getRoomList: async (req, res) => {
@@ -136,18 +137,27 @@ const Rooms = {
     }
   },
 
-  getNewMember: async (req, res) => {
-    const ACADEMY = {
-      amanda: "400710",
-      lia: "400713",
-      callie: "400714",
-      ela: "400715",
-      indira: "400716",
-      lyn: "400717",
-      raisha: "400718",
-    };
+  getGen10Member: async (req, res) => {
+    const ROOMS = getCustomRoom('gen_10')
+    const promises = Object.values(ROOMS).map(async (room_id) => {
+      const response = await fetchService(
+        `${ROOM}/profile?room_id=${room_id}`,
+        res
+      );
+      return response.data;
+    });
 
-    const promises = Object.values(ACADEMY).map(async (room_id) => {
+    try {
+      const newMember = await Promise.all(promises);
+      res.send(newMember);
+    } catch (error) {
+      res.send(error);
+    }
+  },
+
+  getTrainee: async (req, res) => {
+    const ROOMS = getCustomRoom('trainee')
+    const promises = Object.values(ROOMS).map(async (room_id) => {
       const response = await fetchService(
         `${ROOM}/profile?room_id=${room_id}`,
         res
