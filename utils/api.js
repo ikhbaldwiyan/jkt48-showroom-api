@@ -3,4 +3,4 @@ const BASE_URL = 'https://www.showroom-live.com/api';
 const ROOM = `${BASE_URL}/room`;
 const LIVE = `${BASE_URL}/live`;
 
-module.exports = { HOME, ROOM, LIVE }
+module.exports = { HOME, ROOM, LIVE, BASE_URL }

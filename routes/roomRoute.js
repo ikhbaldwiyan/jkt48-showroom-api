@@ -9,5 +9,6 @@ router.get('/schedule/:roomId', Rooms.getNextLive)
 router.get('/total-rank/:roomId', Rooms.getTotalRank)
 router.get('/academy', Rooms.getNewMember)
 router.get('/fan-letters/:roomId', Rooms.getFanLetter)
+router.get('/theater-schedule', Rooms.getTheaterSchedule)
 
 module.exports = router;

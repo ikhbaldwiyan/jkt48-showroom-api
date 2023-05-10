@@ -1,4 +1,4 @@
-const { HOME, LIVE, ROOM } = require("../utils/api");
+const { HOME, LIVE, ROOM, BASE_URL } = require("../utils/api");
 const fetchService = require("../utils/fetchService");
 
 const Rooms = {
@@ -173,6 +173,22 @@ const Rooms = {
       const fanLetter = getFanLetter.data.recommend_comments;
 
       res.send(fanLetter);
+    } catch (error) {
+      res.send(error);
+    }
+  },
+
+  getTheaterSchedule: async (req, res) => {
+    try {
+      const data = await fetchService(
+        `${BASE_URL}/premium_live/search?page=1&count=24&is_pickup=0`,
+        res
+      );
+      const schedule = data.data.result.filter(
+        (room) => room.room_name === "JKT48 Official SHOWROOM"
+      );
+
+      res.send(schedule);
     } catch (error) {
       res.send(error);
     }
