@@ -75,12 +75,17 @@ const Rooms = {
 
       if (roomIsLive.length === 0) {
         res.send({
-          message: "Member Not Live",
+          message: "Room Not Live",
           is_live: false,
+          data: [],
         });
       }
 
-      res.send(roomIsLive);
+      res.send({
+        message: "Room Is Live",
+        is_live: true,
+        data: roomIsLive,
+      });
     } catch (error) {
       return error;
     }
