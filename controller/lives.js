@@ -4,12 +4,21 @@ const fetchService = require("../utils/fetchService");
 const Lives = {
   getStreamUrl: async (req, res) => {
     try {
-      const roomId = req.params.roomId;
+      const { roomId, cookies } = req.params;
       const url = `${LIVE}/streaming_url?room_id=${roomId}`;
-      const response = await fetchService(url, res);
-      const streamUrl = response.data.streaming_url_list;
 
-      res.send(streamUrl);
+      const response = await fetchService(url, res, {
+        headers: {
+          Cookie: cookies,
+        },
+      });
+      const streamUrl = response.data.streaming_url_list;
+      res.send(
+        streamUrl ?? {
+          message: "Room not live",
+          is_live: false,
+        }
+      );
     } catch (error) {
       return error;
     }
@@ -17,9 +26,14 @@ const Lives = {
 
   getComments: async (req, res) => {
     try {
-      const roomId = req.params.roomId;
+      const { roomId, cookies } = req.params;
       const url = `${LIVE}/comment_log?room_id=${roomId}`;
-      const response = await fetchService(url, res);
+
+      const response = await fetchService(url, res, {
+        headers: {
+          Cookie: cookies,
+        },
+      });
       const comments = response.data.comment_log;
 
       res.send(comments);
@@ -30,13 +44,18 @@ const Lives = {
 
   getTitle: async (req, res) => {
     try {
-      const roomId = req.params.roomId;
+      const { roomId, cookies } = req.params;
+
       const profileUrl = `${ROOM}/profile?room_id=${roomId}`;
       const profileApi = await fetchService(profileUrl, res);
       const profile = profileApi.data;
 
       const titleUrl = `${LIVE}/telop?room_id=${roomId}`;
-      const titleApi = await fetchService(titleUrl, res);
+      const titleApi = await fetchService(titleUrl, res, {
+        headers: {
+          Cookie: cookies,
+        },
+      });
       const title = titleApi.data.telop;
 
       // Destrurct response profile and title
@@ -65,10 +84,16 @@ const Lives = {
 
   getRank: async (req, res) => {
     try {
-      const { roomId } = req.params;
+      const { roomId, cookies } = req.params;
+
       const getRank = await fetchService(
         `${LIVE}/stage_user_list?room_id=${roomId}`,
-        res
+        res,
+        {
+          headers: {
+            Cookie: cookies,
+          },
+        }
       );
       const totaGift = getRank.data.stage_user_list;
 
@@ -80,10 +105,16 @@ const Lives = {
 
   getAllGift: async (req, res) => {
     try {
-      const { roomId } = req.params;
+      const { roomId, cookies } = req.params;
+
       const getAllGift = await fetchService(
         `${LIVE}/gift_log?room_id=${roomId}`,
-        res
+        res,
+        {
+          headers: {
+            Cookie: cookies,
+          },
+        }
       );
       const totaGift = getAllGift.data.gift_log;
 
