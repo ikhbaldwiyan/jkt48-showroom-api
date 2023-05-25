@@ -13,12 +13,7 @@ const Lives = {
         },
       });
       const streamUrl = response.data.streaming_url_list;
-      res.send(
-        streamUrl ?? {
-          message: "Room not live",
-          is_live: false,
-        }
-      );
+      res.send(streamUrl);
     } catch (error) {
       return error;
     }
