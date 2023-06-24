@@ -37,7 +37,7 @@ const Lives = {
     }
   },
 
-  getTitle: async (req, res) => {
+  getLiveInfo: async (req, res) => {
     try {
       const { roomId, cookies } = req.params;
 
@@ -46,17 +46,20 @@ const Lives = {
       const profile = profileApi.data;
 
       const titleUrl = `${LIVE}/telop?room_id=${roomId}`;
+      const infoUrl = `${LIVE}/live_info?room_id=${roomId}`;
       const titleApi = await fetchService(titleUrl, res, {
         headers: {
           Cookie: cookies,
         },
       });
+      const infoApi = await fetchService(infoUrl, res);
       const title = titleApi.data.telop;
+      const live_info = infoApi.data
 
       // Destrurct response profile and title
       const profileData = (profile, title) => {
         const name = `${profile.room_name}is Live on JKT48 SHOWROOM`;
-        const share = `https://twitter.com/intent/tweet?text=${name}%0ahttps://jkt48-showroom.vercel.app/live-stream/${roomId}`;
+        const share = `https://twitter.com/intent/tweet?text=${name}%0ahttps://jkt48-showroom.vercel.app/room/${profile.room_url_key}/${roomId}`;
         return {
           roomId: profile.room_id,
           room_name: profile.room_name,
@@ -67,6 +70,11 @@ const Lives = {
           current_live_started_at: profile.current_live_started_at,
           share_url_live: profile.share_url_live,
           share_url_local: share,
+          websocket: {
+            host: live_info.bcsvr_host,
+            key: live_info.bcsvr_key,
+            live_id: live_info.live_id
+          }
         };
       };
       const data = profileData(profile, title);
