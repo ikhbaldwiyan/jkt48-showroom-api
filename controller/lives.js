@@ -52,7 +52,11 @@ const Lives = {
           Cookie: cookies,
         },
       });
-      const infoApi = await fetchService(infoUrl, res);
+      const infoApi = await fetchService(infoUrl, res, {
+        headers: {
+          Cookie: cookies,
+        },
+      });
       const title = titleApi.data.telop;
       const live_info = infoApi.data
 
