@@ -74,6 +74,7 @@ const Lives = {
           current_live_started_at: profile.current_live_started_at,
           share_url_live: profile.share_url_live,
           share_url_local: share,
+          isPremiumLive: profile.premium_room_type === 1 ? true : false,
           websocket: {
             host: live_info.bcsvr_host,
             key: live_info.bcsvr_key,
