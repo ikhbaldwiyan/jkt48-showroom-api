@@ -75,10 +75,12 @@ const IndLiveController = {
 
       if(!liveData) throw new Error('no one is live')
 
+
       res.status(200).json({
         code: 200,
         success: true,
         message: null,
+        is_live: liveData[0] ? true : false,
         data: liveData[0]
       })
 
