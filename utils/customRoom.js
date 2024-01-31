@@ -10,8 +10,6 @@ const getCustomRoom = (type) => {
       elin: "461475",
       danella: "461466",
       daisy: "461465",
-      gracie: "461478",
-      greseel: "461479",
       gendis: "461476",
       jeane: "461480",
       michie: "461481",
@@ -25,6 +23,8 @@ const getCustomRoom = (type) => {
       indira: "400716",
       lyn: "400717",
       raisha: "400718",
+      gracie: "461478",
+      greseel: "461479",
     };
   }
 
