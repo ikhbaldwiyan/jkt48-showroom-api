@@ -15,7 +15,12 @@ const Lives = {
       const streamUrl = response.data.streaming_url_list;
       res.send(streamUrl);
     } catch (error) {
-      return error;
+      console.log(error);
+      res.status(400).json({
+        code: 400,
+        success: false,
+        message: error?.message ?? "Server Error",
+      });
     }
   },
 
@@ -33,7 +38,12 @@ const Lives = {
 
       res.send(comments);
     } catch (error) {
-      return error;
+      console.log(error);
+      res.status(400).json({
+        code: 400,
+        success: false,
+        message: error?.message ?? "Server Error",
+      });
     }
   },
 
@@ -58,7 +68,7 @@ const Lives = {
         },
       });
       const title = titleApi.data.telop;
-      const live_info = infoApi.data
+      const live_info = infoApi.data;
 
       // Destrurct response profile and title
       const profileData = (profile, title) => {
@@ -78,15 +88,20 @@ const Lives = {
           websocket: {
             host: live_info.bcsvr_host,
             key: live_info.bcsvr_key,
-            live_id: live_info.live_id
-          }
+            live_id: live_info.live_id,
+          },
         };
       };
       const data = profileData(profile, title);
 
       res.send(data);
     } catch (error) {
-      return error;
+      console.log(error);
+      res.status(400).json({
+        code: 400,
+        success: false,
+        message: error?.message ?? "Server Error",
+      });
     }
   },
 
@@ -107,7 +122,11 @@ const Lives = {
 
       res.send(totaGift);
     } catch (error) {
-      res.send(error);
+      res.status(400).json({
+        code: 400,
+        success: false,
+        message: error?.message ?? "Server Error",
+      });
     }
   },
 
@@ -128,7 +147,11 @@ const Lives = {
 
       res.send(totaGift);
     } catch (error) {
-      res.send(error);
+      res.status(400).json({
+        code: 400,
+        success: false,
+        message: error?.message ?? "Server Error",
+      });
     }
   },
 };

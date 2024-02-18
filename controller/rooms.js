@@ -24,7 +24,11 @@ const Rooms = {
 
       res.send(roomList);
     } catch (error) {
-      return error;
+      res.status(400).json({
+        code: 400,
+        success: false,
+        message: error?.message ?? "Server Error",
+      });
     }
   },
 
@@ -87,7 +91,11 @@ const Rooms = {
         data: roomIsLive,
       });
     } catch (error) {
-      return error;
+      res.status(400).json({
+        code: 400,
+        success: false,
+        message: error?.message ?? "Server Error",
+      });
     }
   },
 
@@ -143,7 +151,7 @@ const Rooms = {
   },
 
   getGen10Member: async (req, res) => {
-    const ROOMS = getCustomRoom('gen_10')
+    const ROOMS = getCustomRoom("gen_10");
     const promises = Object.values(ROOMS).map(async (room_id) => {
       const response = await fetchService(
         `${ROOM}/profile?room_id=${room_id}`,
@@ -161,7 +169,7 @@ const Rooms = {
   },
 
   getTrainee: async (req, res) => {
-    const ROOMS = getCustomRoom('trainee')
+    const ROOMS = getCustomRoom("trainee");
     const promises = Object.values(ROOMS).map(async (room_id) => {
       const response = await fetchService(
         `${ROOM}/profile?room_id=${room_id}`,
