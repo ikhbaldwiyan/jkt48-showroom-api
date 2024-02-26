@@ -4,7 +4,8 @@
   "description": "API for jkt48 showroom",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "author": "Ikhbal Dwiyantoro",
   "license": "MIT",
