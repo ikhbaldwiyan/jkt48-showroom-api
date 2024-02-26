@@ -15,7 +15,7 @@ const Lives = {
       const streamUrl = response.data.streaming_url_list;
       res.send(streamUrl);
     } catch (error) {
-      console.log(error);
+      console.log('error getStreamUrl', error);
       res.status(400).json({
         code: 400,
         success: false,
@@ -38,7 +38,7 @@ const Lives = {
 
       res.send(comments);
     } catch (error) {
-      console.log(error);
+      console.log('error getComments', error);
       res.status(400).json({
         code: 400,
         success: false,
@@ -96,7 +96,7 @@ const Lives = {
 
       res.send(data);
     } catch (error) {
-      console.log(error);
+      console.log('error getLiveInfo', error);
       res.status(400).json({
         code: 400,
         success: false,
@@ -122,6 +122,7 @@ const Lives = {
 
       res.send(totaGift);
     } catch (error) {
+      console.log('error getRank', error);
       res.status(400).json({
         code: 400,
         success: false,
@@ -147,6 +148,7 @@ const Lives = {
 
       res.send(totaGift);
     } catch (error) {
+      console.log('error getAllGift', error);
       res.status(400).json({
         code: 400,
         success: false,

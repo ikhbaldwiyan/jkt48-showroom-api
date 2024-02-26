@@ -24,6 +24,7 @@ const Rooms = {
 
       res.send(roomList);
     } catch (error) {
+      console.log('error getRoomList', error);
       res.status(400).json({
         code: 400,
         success: false,
@@ -91,6 +92,7 @@ const Rooms = {
         data: roomIsLive,
       });
     } catch (error) {
+      console.log('error getRoomLive', error);
       res.status(400).json({
         code: 400,
         success: false,
@@ -116,7 +118,12 @@ const Rooms = {
 
       res.send(profile);
     } catch (error) {
-      res.send(error);
+      console.log('error getProfile', error);
+      res.status(400).json({
+        code: 400,
+        success: false,
+        message: error?.message ?? "Server Error",
+      });
     }
   },
 
@@ -146,7 +153,12 @@ const Rooms = {
 
       res.send(totalRank);
     } catch (error) {
-      res.send(error);
+      console.log('error getTotalRank', error);
+      res.status(400).json({
+        code: 400,
+        success: false,
+        message: error?.message ?? "Server Error",
+      });
     }
   },
 
@@ -164,7 +176,12 @@ const Rooms = {
       const newMember = await Promise.all(promises);
       res.send(newMember);
     } catch (error) {
-      res.send(error);
+      console.log('error getGen10Member', error);
+      res.status(400).json({
+        code: 400,
+        success: false,
+        message: error?.message ?? "Server Error",
+      });
     }
   },
 
@@ -182,7 +199,12 @@ const Rooms = {
       const newMember = await Promise.all(promises);
       res.send(newMember);
     } catch (error) {
-      res.send(error);
+      console.log('error getTrainee', error);
+      res.status(400).json({
+        code: 400,
+        success: false,
+        message: error?.message ?? "Server Error",
+      });
     }
   },
 
@@ -197,7 +219,12 @@ const Rooms = {
 
       res.send(fanLetter);
     } catch (error) {
-      res.send(error);
+      console.log('error getFanLetter', error);
+      res.status(400).json({
+        code: 400,
+        success: false,
+        message: error?.message ?? "Server Error",
+      });
     }
   },
 
@@ -213,7 +240,12 @@ const Rooms = {
 
       res.send(schedule);
     } catch (error) {
-      res.send(error);
+      console.log('error getTheaterSchedule', error);
+      res.status(400).json({
+        code: 400,
+        success: false,
+        message: error?.message ?? "Server Error",
+      });
     }
   },
 };
