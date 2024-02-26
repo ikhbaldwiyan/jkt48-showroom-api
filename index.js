@@ -4,7 +4,6 @@ const cors = require('cors');
 const roomRouter = require('./routes/roomRoute');
 const liveRouter = require('./routes/liveRoute');
 const missionRouter = require('./routes/missionRoute');
-const IdnLivesRouter = require('./routes/idnLivesRoute');
 
 const app = express();
 const PORT = 8000;
@@ -27,4 +26,3 @@ app.get('/', (req, res) => {
 app.use('/api/rooms', roomRouter);
 app.use('/api/lives', liveRouter);
 app.use('/api/missions', missionRouter);
-app.use('/api/idn', IdnLivesRouter)
