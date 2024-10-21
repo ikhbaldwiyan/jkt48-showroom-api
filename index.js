@@ -8,7 +8,17 @@ const missionRouter = require('./routes/missionRoute');
 const app = express();
 const PORT = 8000;
 
-app.use(cors())
+const whiteListCors = ['https://www.jkt48showroom.com/', 'http://localhost:3000']
+
+app.use(cors({
+    origin: function(origin, cb) {
+        if(whiteListCors.includes(origin)) {
+            cb(null, true)
+        } else {
+            cb(new Error('Not allowed'))
+        }
+    }
+}))
 app.use(bodyParser.json());
 
 app.listen(PORT, () => {
