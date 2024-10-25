@@ -24,12 +24,7 @@ const Rooms = {
 
       res.send(roomList);
     } catch (error) {
-      console.log('error getRoomList', error);
-      res.status(400).json({
-        code: 400,
-        success: false,
-        message: error?.message ?? "Server Error",
-      });
+      return error;
     }
   },
 
@@ -92,12 +87,7 @@ const Rooms = {
         data: roomIsLive,
       });
     } catch (error) {
-      console.log('error getRoomLive', error);
-      res.status(400).json({
-        code: 400,
-        success: false,
-        message: error?.message ?? "Server Error",
-      });
+      return error;
     }
   },
 
@@ -118,12 +108,7 @@ const Rooms = {
 
       res.send(profile);
     } catch (error) {
-      console.log('error getProfile', error);
-      res.status(400).json({
-        code: 400,
-        success: false,
-        message: error?.message ?? "Server Error",
-      });
+      res.send(error);
     }
   },
 
@@ -153,17 +138,12 @@ const Rooms = {
 
       res.send(totalRank);
     } catch (error) {
-      console.log('error getTotalRank', error);
-      res.status(400).json({
-        code: 400,
-        success: false,
-        message: error?.message ?? "Server Error",
-      });
+      res.send(error);
     }
   },
 
   getGen10Member: async (req, res) => {
-    const ROOMS = getCustomRoom("gen_10");
+    const ROOMS = getCustomRoom('gen_10')
     const promises = Object.values(ROOMS).map(async (room_id) => {
       const response = await fetchService(
         `${ROOM}/profile?room_id=${room_id}`,
@@ -176,17 +156,12 @@ const Rooms = {
       const newMember = await Promise.all(promises);
       res.send(newMember);
     } catch (error) {
-      console.log('error getGen10Member', error);
-      res.status(400).json({
-        code: 400,
-        success: false,
-        message: error?.message ?? "Server Error",
-      });
+      res.send(error);
     }
   },
 
   getTrainee: async (req, res) => {
-    const ROOMS = getCustomRoom("trainee");
+    const ROOMS = getCustomRoom('trainee')
     const promises = Object.values(ROOMS).map(async (room_id) => {
       const response = await fetchService(
         `${ROOM}/profile?room_id=${room_id}`,
@@ -199,12 +174,7 @@ const Rooms = {
       const newMember = await Promise.all(promises);
       res.send(newMember);
     } catch (error) {
-      console.log('error getTrainee', error);
-      res.status(400).json({
-        code: 400,
-        success: false,
-        message: error?.message ?? "Server Error",
-      });
+      res.send(error);
     }
   },
 
@@ -219,12 +189,7 @@ const Rooms = {
 
       res.send(fanLetter);
     } catch (error) {
-      console.log('error getFanLetter', error);
-      res.status(400).json({
-        code: 400,
-        success: false,
-        message: error?.message ?? "Server Error",
-      });
+      res.send(error);
     }
   },
 
@@ -240,12 +205,7 @@ const Rooms = {
 
       res.send(schedule);
     } catch (error) {
-      console.log('error getTheaterSchedule', error);
-      res.status(400).json({
-        code: 400,
-        success: false,
-        message: error?.message ?? "Server Error",
-      });
+      res.send(error);
     }
   },
 };
