@@ -24,7 +24,7 @@ const Rooms = {
 
       res.send(roomList);
     } catch (error) {
-      console.log('error getRoomList', error);
+      console.log("error getRoomList", error);
       res.status(400).json({
         code: 400,
         success: false,
@@ -84,15 +84,15 @@ const Rooms = {
           is_live: false,
           data: [],
         });
+      } else {
+        res.send({
+          message: "Room Is Live",
+          is_live: true,
+          data: roomIsLive,
+        });
       }
-
-      res.send({
-        message: "Room Is Live",
-        is_live: true,
-        data: roomIsLive,
-      });
     } catch (error) {
-      console.log('error getRoomLive', error);
+      console.log("error getRoomLive", error);
       res.status(400).json({
         code: 400,
         success: false,
@@ -109,18 +109,36 @@ const Rooms = {
           Cookie: cookies,
         },
       };
-      const getProfile = await fetchService(
-        `${ROOM}/profile?room_id=${roomId}`,
-        res,
-        config
-      );
+      const getProfile = await fetchService(`${ROOM}/profile?room_id=${roomId}`, res, config);
       const profile = getProfile.data;
 
       res.send(profile);
     } catch (error) {
-      console.log('error getProfile', error);
+      console.log("error getProfile", error);
       res.status(400).json({
         code: 400,
+        success: false,
+        message: error?.message ?? "Server Error",
+      });
+    }
+  },
+
+  // Fungsi baru untuk mendapatkan room berdasarkan ID
+  getRoomById: async (req, res) => {
+    try {
+      const { id } = req.params; // Ambil ID dari parameter URL
+      const getRoom = await fetchService(`${ROOM}/profile?room_id=${id}`, res); // Ambil data dari API berdasarkan ID
+      const room = getRoom.data;
+
+      if (room) {
+        res.send(room); // Kirimkan data room yang ditemukan
+      } else {
+        res.status(404).send("Room not found"); // Jika tidak ditemukan, kirimkan 404
+      }
+    } catch (error) {
+      console.log("error getRoomById", error);
+      res.status(500).json({
+        code: 500,
         success: false,
         message: error?.message ?? "Server Error",
       });
@@ -130,10 +148,7 @@ const Rooms = {
   getNextLive: async (req, res) => {
     try {
       const { roomId } = req.params;
-      const getNextLive = await fetchService(
-        `${ROOM}/next_live?room_id=${roomId}`,
-        res
-      );
+      const getNextLive = await fetchService(`${ROOM}/next_live?room_id=${roomId}`, res);
       const nextLive = getNextLive.data;
 
       res.send(nextLive);
@@ -145,15 +160,12 @@ const Rooms = {
   getTotalRank: async (req, res) => {
     try {
       const { roomId } = req.params;
-      const getTotalRank = await fetchService(
-        `${LIVE}/summary_ranking?room_id=${roomId}`,
-        res
-      );
+      const getTotalRank = await fetchService(`${LIVE}/summary_ranking?room_id=${roomId}`, res);
       const totalRank = getTotalRank.data.ranking;
 
       res.send(totalRank);
     } catch (error) {
-      console.log('error getTotalRank', error);
+      console.log("error getTotalRank", error);
       res.status(400).json({
         code: 400,
         success: false,
@@ -165,10 +177,7 @@ const Rooms = {
   getGen10Member: async (req, res) => {
     const ROOMS = getCustomRoom("gen_10");
     const promises = Object.values(ROOMS).map(async (room_id) => {
-      const response = await fetchService(
-        `${ROOM}/profile?room_id=${room_id}`,
-        res
-      );
+      const response = await fetchService(`${ROOM}/profile?room_id=${room_id}`, res);
       return response.data;
     });
 
@@ -176,7 +185,7 @@ const Rooms = {
       const newMember = await Promise.all(promises);
       res.send(newMember);
     } catch (error) {
-      console.log('error getGen10Member', error);
+      console.log("error getGen10Member", error);
       res.status(400).json({
         code: 400,
         success: false,
@@ -188,10 +197,7 @@ const Rooms = {
   getTrainee: async (req, res) => {
     const ROOMS = getCustomRoom("trainee");
     const promises = Object.values(ROOMS).map(async (room_id) => {
-      const response = await fetchService(
-        `${ROOM}/profile?room_id=${room_id}`,
-        res
-      );
+      const response = await fetchService(`${ROOM}/profile?room_id=${room_id}`, res);
       return response.data;
     });
 
@@ -199,7 +205,7 @@ const Rooms = {
       const newMember = await Promise.all(promises);
       res.send(newMember);
     } catch (error) {
-      console.log('error getTrainee', error);
+      console.log("error getTrainee", error);
       res.status(400).json({
         code: 400,
         success: false,
@@ -211,15 +217,12 @@ const Rooms = {
   getFanLetter: async (req, res) => {
     try {
       const { roomId } = req.params;
-      const getFanLetter = await fetchService(
-        `${ROOM}/recommend_comments?room_id=${roomId}`,
-        res
-      );
+      const getFanLetter = await fetchService(`${ROOM}/recommend_comments?room_id=${roomId}`, res);
       const fanLetter = getFanLetter.data.recommend_comments;
 
       res.send(fanLetter);
     } catch (error) {
-      console.log('error getFanLetter', error);
+      console.log("error getFanLetter", error);
       res.status(400).json({
         code: 400,
         success: false,
@@ -230,17 +233,12 @@ const Rooms = {
 
   getTheaterSchedule: async (req, res) => {
     try {
-      const data = await fetchService(
-        `${BASE_URL}/premium_live/search?page=1&count=24&is_pickup=0`,
-        res
-      );
-      const schedule = data.data.result.filter(
-        (room) => room.room_name === "JKT48 Official SHOWROOM"
-      );
+      const data = await fetchService(`${BASE_URL}/premium_live/search?page=1&count=24&is_pickup=0`, res);
+      const schedule = data.data.result.filter((room) => room.room_name === "JKT48 Official SHOWROOM");
 
       res.send(schedule);
     } catch (error) {
-      console.log('error getTheaterSchedule', error);
+      console.log("error getTheaterSchedule", error);
       res.status(400).json({
         code: 400,
         success: false,

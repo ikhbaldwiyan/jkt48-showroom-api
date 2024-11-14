@@ -12,4 +12,7 @@ router.get("/fan-letters/:roomId", Rooms.getFanLetter);
 router.get("/theater-schedule", Rooms.getTheaterSchedule);
 router.get("/trainee", Rooms.getTrainee);
 
+// Tambahkan rute baru ini
+router.get("/:id", Rooms.getRoomById); // Rute untuk mendapatkan room berdasarkan ID
+
 module.exports = router;
